@@ -1,4 +1,5 @@
 #define A 0b01101001111110011001
+#define B 0b11101001111010011110
 
 int offset = 0;
 unsigned long lastMillis = 0;
@@ -10,7 +11,7 @@ void setup() {
 void loop() {
   currentMillis = millis();
 
-  character(A);
+  character(B);
 
   if (currentMillis - lastMillis > 300) {
     lastMillis = currentMillis;
@@ -25,7 +26,8 @@ void character(unsigned long cha) {
   for (byte y = 0; y < 5; y++) {
     for (byte x = 0; x < 4; x++) {
       if (cha & 1) {
-        light(x - offset, y);
+        // 3 - x to reverse order
+        light(3 - x - offset, y);
       }
       cha = cha >> 1;
     }
