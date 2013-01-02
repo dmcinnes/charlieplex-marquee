@@ -1,57 +1,17 @@
-// Row       1---2---3---4---5---
-#define _A 0b01101001111110011001
-#define _B 0b11101001111010011110
-#define _C 0b01111000100010000111
-#define _D 0b11101001100110011110
-#define _E 0b11111000111010001111
-#define _F 0b11111000111010001000
-#define _G 0b01111000101110010110
-#define _H 0b10011001111110011001
-#define _I 0b01110010001000100111
-#define _J 0b01110010001010100100
-// Row       1---2---3---4---5---
-#define _K 0b10011010110010101001
-#define _L 0b10001000100010001111
-#define _M 0b10011111111110011001
-#define _N 0b10011101101110011001
-#define _O 0b01101001100110010110
-#define _P 0b11101001111010001000
-#define _Q 0b01101001101101100001
-#define _R 0b11101001111010101001
-// Row       1---2---3---4---5---
-#define _S 0b11111000111100011111
-#define _T 0b01110010001000100010
-#define _U 0b10011001100110010110
-#define _V 0b10011001100110100100
-#define _W 0b10011001111111110110
-#define _X 0b10011001011010011001
-#define _Y 0b10011001011000101100
-#define _Z 0b11110001001001001111
+#define MAP_START 32
+
+// maps characters to their 4x5 grid 
+unsigned long characterMap[58];
+
+void Chr(char theChar, unsigned long value) {
+  characterMap[theChar - MAP_START] = value;
+}
 
 int offset = 0;
 unsigned long lastMillis = 0;
 unsigned long currentMillis = 0;
 
-unsigned long characterMap[] = {_A,_B,_C,_D,_E,_F,_G,_H,_I,_J,_K,_L,_M,_N,_O,_P,_Q,_R,_S,_T,_U,_V,_W,_X,_Y,_Z};
-
-char myString[] = "HELLOWORLD";
-
-void setup() {
-}
-
-void loop() {
-  currentMillis = millis();
-
-  renderString(myString, offset);
-
-  if (currentMillis - lastMillis > 300) {
-    lastMillis = currentMillis;
-    offset++;
-    if (offset > 50) {
-      offset = -4;
-    }
-  }
-}
+char myString[] = "HELLO WORLD!";
 
 void renderString(char *theString, int offset) {
   int index = 0;
@@ -67,7 +27,7 @@ void renderCharacter(char theChar, int charOffset) {
     return;
   }
 
-  unsigned long graphic = characterMap[theChar - 65];
+  unsigned long graphic = characterMap[theChar - MAP_START];
 
   for (byte y = 0; y < 5; y++) {
     for (byte x = 0; x < 4; x++) {
@@ -102,4 +62,52 @@ void LEDon(byte vin, byte gnd) {
   pinMode(gnd, OUTPUT); 
   digitalWrite(vin, HIGH);
   digitalWrite(gnd, LOW); 
+}
+
+void setup() {
+  // set up render map
+
+  // Rows:   1---2---3---4---5---
+  Chr('A', 0b01101001111110011001);
+  Chr('B', 0b11101001111010011110);
+  Chr('C', 0b01111000100010000111);
+  Chr('D', 0b11101001100110011110);
+  Chr('E', 0b11111000111010001111);
+  Chr('F', 0b11111000111010001000);
+  Chr('G', 0b01111000101110010110);
+  Chr('H', 0b10011001111110011001);
+  Chr('I', 0b01110010001000100111);
+  Chr('J', 0b01110010001010100100);
+  Chr('K', 0b10011010110010101001);
+  Chr('L', 0b10001000100010001111);
+  Chr('M', 0b10011111111110011001);
+  Chr('N', 0b10011101101110011001);
+  Chr('O', 0b01101001100110010110);
+  Chr('P', 0b11101001111010001000);
+  Chr('Q', 0b01101001101101100001);
+  Chr('R', 0b11101001111010101001);
+  Chr('S', 0b11111000111100011111);
+  Chr('T', 0b01110010001000100010);
+  Chr('U', 0b10011001100110010110);
+  Chr('V', 0b10011001100110100100);
+  Chr('W', 0b10011001111111110110);
+  Chr('X', 0b10011001011010011001);
+  Chr('Y', 0b10011001011000101100);
+  Chr('Z', 0b11110001001001001111);
+  Chr(' ', 0b00000000000000000000);
+  Chr('!', 0b01100110011000000110);
+}
+
+void loop() {
+  currentMillis = millis();
+
+  renderString(myString, offset);
+
+  if (currentMillis - lastMillis > 300) {
+    lastMillis = currentMillis;
+    offset++;
+    if (offset > 60) {
+      offset = -4;
+    }
+  }
 }
