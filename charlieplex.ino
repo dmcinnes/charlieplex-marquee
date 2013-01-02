@@ -1,4 +1,4 @@
-#define A 434073
+#define A 0b01101001111110011001
 
 int offset = 0;
 unsigned long lastMillis = 0;
