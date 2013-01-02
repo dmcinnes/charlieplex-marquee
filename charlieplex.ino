@@ -9,14 +9,32 @@
 #define _H 0b10011001111110011001
 #define _I 0b01110010001000100111
 #define _J 0b01110010001010100100
+// Row       1---2---3---4---5---
+#define _K 0b10011010110010101001
+#define _L 0b10001000100010001111
+#define _M 0b10011111111110011001
+#define _N 0b10011101101110011001
+#define _O 0b01101001100110010110
+#define _P 0b11101001111010001000
+#define _Q 0b01101001101101100001
+#define _R 0b11101001111010101001
+// Row       1---2---3---4---5---
+#define _S 0b11111000111100011111
+#define _T 0b01110010001000100010
+#define _U 0b10011001100110010110
+#define _V 0b10011001100110100100
+#define _W 0b10011001111111110110
+#define _X 0b10011001011010011001
+#define _Y 0b10011001011000101100
+#define _Z 0b11110001001001001111
 
 int offset = 0;
 unsigned long lastMillis = 0;
 unsigned long currentMillis = 0;
 
-unsigned long characterMap[] = {_A,_B,_C,_D,_E,_F,_G,_H,_I,_J};
+unsigned long characterMap[] = {_A,_B,_C,_D,_E,_F,_G,_H,_I,_J,_K,_L,_M,_N,_O,_P,_Q,_R,_S,_T,_U,_V,_W,_X,_Y,_Z};
 
-char myString[] = "ABCDEFGHIJ";
+char myString[] = "HELLOWORLD";
 
 void setup() {
 }
