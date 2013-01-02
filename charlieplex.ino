@@ -95,7 +95,7 @@ void setup() {
   Chr('Y', 0b10011001011000101100);
   Chr('Z', 0b11110001001001001111);
   Chr(' ', 0b00000000000000000000);
-  Chr('!', 0b01100110011000000110);
+  Chr('!', 0b01000100010000000100);
 }
 
 void loop() {
@@ -103,7 +103,7 @@ void loop() {
 
   renderString(myString, offset);
 
-  if (currentMillis - lastMillis > 300) {
+  if (currentMillis - lastMillis > 100) {
     lastMillis = currentMillis;
     offset++;
     if (offset > 60) {
