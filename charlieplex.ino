@@ -12,6 +12,7 @@ unsigned long lastMillis = 0;
 unsigned long currentMillis = 0;
 
 char myString[] = "HELLO WORLD!";
+int length = sizeof(myString);
 
 void renderString(char *theString, int offset) {
   int index = 0;
@@ -105,7 +106,7 @@ void loop() {
   if (currentMillis - lastMillis > 100) {
     lastMillis = currentMillis;
     offset++;
-    if (offset > 60) {
+    if (offset > length * 5) {
       offset = -4;
     }
   }
