@@ -56,7 +56,6 @@ void LEDon(byte vin, byte gnd) {
   pinMode(2, INPUT); 
   pinMode(3, INPUT); 
   pinMode(4, INPUT); 
-  pinMode(5, INPUT); 
 
   pinMode(vin, OUTPUT);   
   pinMode(gnd, OUTPUT); 
