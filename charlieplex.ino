@@ -1,37 +1,53 @@
-#define MAP_START 32
+// where does our characterMap start in the ASCII code
+#define MAP_START      32
+
+#define DISPLAY_WIDTH  4
+#define DISPLAY_HEIGHT 5
+
+// "pixels" per second
+#define SPEED          10
+
+// the text to display
+#define DISPLAY_STRING "HELLO WORLD!"
+
 
 // maps characters to their 4x5 grid 
 unsigned long characterMap[58];
 
+// set up a character in the characterMap
 void Chr(char theChar, unsigned long value) {
   characterMap[theChar - MAP_START] = value;
 }
 
+// The offset of our string in the display
 int offset = 0;
 unsigned long lastMillis = 0;
 unsigned long currentMillis = 0;
+unsigned int timeout;
 
-char myString[] = "HELLO WORLD!";
+char myString[] = DISPLAY_STRING;
 int length = sizeof(myString);
 
+// render the string on the given offset
 void renderString(char *theString, int offset) {
   int index = 0;
   while (theString[index]) {
-    renderCharacter(theString[index], offset - index * 5);
+    renderCharacter(theString[index], offset - index * (DISPLAY_WIDTH + 1));
     index++;
   }
 }
 
+// render a character on the given offset
 void renderCharacter(char theChar, int charOffset) {
-  if (charOffset < -3 || charOffset > 4) {
+  if (charOffset <= -DISPLAY_WIDTH || charOffset > DISPLAY_WIDTH) {
     // off the 'screen' nothing to do
     return;
   }
 
   unsigned long graphic = characterMap[theChar - MAP_START];
 
-  for (byte y = 0; y < 5; y++) {
-    for (byte x = 0; x < 4; x++) {
+  for (byte y = 0; y < DISPLAY_HEIGHT; y++) {
+    for (byte x = 0; x < DISPLAY_WIDTH; x++) {
       if (graphic & 0x1) {
         // 3 - x to reverse order
         lightPixel(3 - x - charOffset, y);
@@ -41,8 +57,9 @@ void renderCharacter(char theChar, int charOffset) {
   }
 }
 
+// light a pixel at the given coordinates
 void lightPixel(byte x, byte y) {
-  if (x >= 0 && x < 4) {
+  if (x >= 0 && x < DISPLAY_WIDTH) {
     if (y <= x) {
       x++;
     }
@@ -50,6 +67,7 @@ void lightPixel(byte x, byte y) {
   }
 }
 
+// turn on the pins to light a LED
 void LEDon(byte vin, byte gnd) {
   delay(1);
   pinMode(0, INPUT); 
@@ -64,6 +82,7 @@ void LEDon(byte vin, byte gnd) {
   digitalWrite(gnd, LOW); 
 }
 
+// runs at start
 void setup() {
   // set up render map
 
@@ -96,18 +115,24 @@ void setup() {
   Chr('Z', 0b11110001001001001111);
   Chr(' ', 0b00000000000000000000);
   Chr('!', 0b01000100010000000100);
+
+  // how long to wait between shifting the display
+  timeout = 1000 / SPEED;
 }
 
+// loops continuously
 void loop() {
   currentMillis = millis();
 
   renderString(myString, offset);
 
-  if (currentMillis - lastMillis > 100) {
+  if (currentMillis - lastMillis > timeout) {
     lastMillis = currentMillis;
+    // shift string over one "pixel"
     offset++;
-    if (offset > length * 5) {
-      offset = -4;
+    // if it's past the length of the string, start over from the beginning
+    if (offset > length * (DISPLAY_WIDTH + 1)) {
+      offset = -DISPLAY_WIDTH;
     }
   }
 }
