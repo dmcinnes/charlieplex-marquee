@@ -12,7 +12,7 @@
 
 
 // maps characters to their 4x5 grid 
-unsigned long characterMap[58];
+unsigned long characterMap[59];
 
 // set up a character in the characterMap
 void Chr(char theChar, unsigned long value) {
