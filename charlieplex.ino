@@ -48,33 +48,33 @@ void renderCharacter(char theChar, int charOffset) {
 
   for (byte y = 0; y < DISPLAY_HEIGHT; y++) {
     for (byte x = 0; x < DISPLAY_WIDTH; x++) {
-      if (graphic & 0x1) {
-        // 3 - x to reverse order
-        lightPixel(3 - x - charOffset, y);
-      }
+      // 3 - x to reverse order
+      setPixel(3 - x - charOffset, y, graphic & 0x1);
       graphic = graphic >> 1;
     }
   }
 }
 
 // light a pixel at the given coordinates
-void lightPixel(byte x, byte y) {
+void setPixel(byte x, byte y, boolean ledStatus) {
   if (x >= 0 && x < DISPLAY_WIDTH) {
     if (y <= x) {
       x++;
     }
-    LEDon(y, x);
+    setLed(y, x, ledStatus);
   }
 }
 
 // turn on the pins to light a LED
-void LEDon(byte vin, byte gnd) {
+void setLed(byte vin, byte gnd, boolean ledStatus) {
   delay(1);
   pinMode(0, INPUT); 
   pinMode(1, INPUT); 
   pinMode(2, INPUT); 
   pinMode(3, INPUT); 
   pinMode(4, INPUT); 
+
+  if(!ledStatus) return;
 
   pinMode(vin, OUTPUT);   
   pinMode(gnd, OUTPUT); 
